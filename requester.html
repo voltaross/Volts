@@ -15,11 +15,7 @@
         --text-dim: #b3b3b3;
       }
 
-      /* --- CUSTOM CURSOR LOGIC --- 
-         1. Image must be SMALL (32x32 is best).
-         2. You MUST provide a fallback (like 'auto' or 'pointer') or it won't render.
-         3. 0 0 represents the 'hotspot' (the tip of the cursor).
-      */
+      /* --- CUSTOM CURSOR LOGIC --- */
       html, body {
         height: 100%;
         width: 100%;
@@ -30,14 +26,10 @@
         font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         line-height: 1.6;
         overflow-x: hidden;
-        
-        /* REPLACE 'cursor.png' with your actual file path */
         cursor: url('assets/cursor.png'), auto !important; 
       }
 
-      /* Change cursor when hovering over clickable items */
       a, button, .btn-download, .nav-links li a, [onclick] {
-        /* REPLACE 'pointer.png' with your hovering cursor version */
         cursor: url('assets/pointer.png'), pointer !important;
         -webkit-app-region: no-drag; 
       }
@@ -225,11 +217,34 @@
         </ol>
       </div>
 
+      <div class="step" data-aos="fade-right">
+        <h2><span class="step-number">3</span> Auto-Announce</h2>
+        <p>Once connected, the app monitors your Spotify playback automatically.</p>
+        <ul>
+            <li>Every time a new song starts, the app sends a <strong>"Now Playing"</strong> message to your Twitch chat.</li>
+            <li>This feature requires no extra setup—just stay connected!</li>
+        </ul>
+        <div class="notice">
+            <strong>Note:</strong> Announcements are sent only once per song to avoid chat spam.
+        </div>
+      </div>
+
+      <div class="step" data-aos="fade-right">
+        <h2><span class="step-number">4</span> Managing Updates</h2>
+        <p>Stay up to date without the hassle of manual reinstallation.</p>
+        <div class="update-feature">
+          <h3>When an update is found:</h3>
+          <ol>
+            <li>A popup will appear asking if you'd like to <strong>Download & Install</strong>, <strong>Skip</strong>, or <strong>Install Later</strong>.</li>
+            <li>If you choose <strong>Skip</strong>, the app will ignore that specific version until the next update is released.</li>
+            <li>Choosing <strong>Download</strong> will run the installer in the background and prompt you to restart once ready.</li>
+          </ol>
+        </div>
+      </div>
+
       <footer style="text-align: center; color: #555; padding: 40px 0; border-top: 1px solid #222;">
         <p>© 2026 Voltaross Creative Studio</p>
       </footer>
     </div>
-
-    
   </body>
 </html>
