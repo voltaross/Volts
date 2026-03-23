@@ -188,17 +188,17 @@
     </nav>
 
     <header>
-      <h1 data-aos="fade-down">Requester Pro <span class="version-badge">v2.0.6</span></h1>
-      <p class="subtitle" data-aos="fade-up">
+      <h1>Requester Pro <span class="version-badge">v2.0.6</span></h1>
+      <p class="subtitle">
         Automatic Spotify & Twitch integration. Simple setup, zero tokens.
       </p>
-      <div class="download-box" data-aos="zoom-in">
+      <div class="download-box">
         <a href="https://github.com/voltaross/Requester-PRO/releases" class="btn-download">Download v2.0.6</a>
       </div>
     </header>
 
     <div class="container">
-      <div class="step" data-aos="fade-right">
+      <div class="step">
         <h2><span class="step-number">1</span> Setup Spotify API</h2>
         <p>Go to the Spotify Developer Dashboard and create a new App.</p>
         <ul>
@@ -207,7 +207,7 @@
         </ul>
       </div>
 
-      <div class="step" data-aos="fade-right">
+      <div class="step">
         <h2><span class="step-number">2</span> Launch & Link</h2>
         <p>Open <code>RequesterPro.exe</code> and follow the buttons in order:</p>
         <ol>
@@ -217,7 +217,7 @@
         </ol>
       </div>
 
-      <div class="step" data-aos="fade-right">
+      <div class="step">
         <h2><span class="step-number">3</span> Auto-Announce</h2>
         <p>Once connected, the app monitors your Spotify playback automatically.</p>
         <ul>
@@ -229,7 +229,7 @@
         </div>
       </div>
 
-      <div class="step" data-aos="fade-right">
+      <div class="step">
         <h2><span class="step-number">4</span> Managing Updates</h2>
         <p>Stay up to date without the hassle of manual reinstallation.</p>
         <div class="update-feature">
@@ -237,8 +237,23 @@
           <ol>
             <li>A popup will appear asking if you'd like to <strong>Download & Install</strong>, <strong>Skip</strong>, or <strong>Install Later</strong>.</li>
             <li>If you choose <strong>Skip</strong>, the app will ignore that specific version until the next update is released.</li>
-            <li>Choosing <strong>Download</strong> will run the installer in the background and prompt you to restart once ready.</li>
           </ol>
+        </div>
+      </div>
+
+      <div class="step">
+        <h2><span class="step-number">5</span> Add to OBS Overlay</h2>
+        <p>To show the "Now Playing" card on your stream, add a <strong>Browser Source</strong> in OBS:</p>
+        <ul>
+            <li><strong>URL:</strong> <code>http://127.0.0.1:8888/overlay</code></li>
+            <li><strong>Width:</strong> 400</li>
+            <li><strong>Height:</strong> 150</li>
+        </ul>
+        <div class="notice">
+            <strong>Pro Tip:</strong> Click the <strong>"Copy OBS Overlay URL"</strong> button inside the Requester Pro app to quickly copy the link!
+        </div>
+        <div class="screenshot-container">
+          <img src="images/step5.png" alt="OBS Browser Source Setup" />
         </div>
       </div>
 
