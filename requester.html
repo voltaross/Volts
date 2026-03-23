@@ -15,7 +15,8 @@
         --text-dim: #b3b3b3;
       }
 
-      /* --- CUSTOM CURSOR LOGIC --- */
+      /* --- CRITICAL CURSOR FIX --- */
+      /* We use !important and a fallback to ensure it doesn't vanish */
       html, body {
         height: 100%;
         width: 100%;
@@ -26,10 +27,14 @@
         font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         line-height: 1.6;
         overflow-x: hidden;
-        cursor: url('assets/cursor.png'), auto !important; 
+        
+        /* 1. Try your custom asset first */
+        /* 2. Fallback to 'default' so it never disappears */
+        cursor: url('assets/cursor.png'), default !important; 
       }
 
-      a, button, .btn-download, .nav-links li a, [onclick] {
+      /* Hover states for all interactive elements */
+      a, button, .btn-download, .nav-links li a, [onclick], input {
         cursor: url('assets/pointer.png'), pointer !important;
         -webkit-app-region: no-drag; 
       }
@@ -46,12 +51,7 @@
 
       .logo { font-weight: bold; font-size: 1.5rem; color: var(--spotify-green); }
       .nav-links { list-style: none; display: flex; gap: 20px; margin: 0; padding: 0; }
-      .nav-links a { 
-        color: white; 
-        text-decoration: none; 
-        font-size: 0.9rem; 
-        opacity: 0.8; 
-      }
+      .nav-links a { color: white; text-decoration: none; font-size: 0.9rem; opacity: 0.8; }
       .nav-links a:hover { opacity: 1; color: var(--spotify-green); }
 
       header {
@@ -60,11 +60,7 @@
         background: linear-gradient(180deg, #181818 0%, #0b0b0b 100%);
       }
 
-      h1 {
-        font-size: 3.5rem;
-        margin: 0 0 10px 0;
-        color: var(--spotify-green);
-      }
+      h1 { font-size: 3.5rem; margin: 0 0 10px 0; color: var(--spotify-green); }
       .version-badge {
         background: var(--spotify-green);
         color: black;
@@ -74,17 +70,9 @@
         vertical-align: middle;
         margin-left: 10px;
       }
-      .subtitle {
-        color: var(--text-dim);
-        font-size: 1.2rem;
-        margin-bottom: 30px;
-      }
+      .subtitle { color: var(--text-dim); font-size: 1.2rem; margin-bottom: 30px; }
 
-      .container {
-        max-width: 900px;
-        margin: 0 auto;
-        padding: 40px 20px;
-      }
+      .container { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
 
       .download-box {
         background: var(--card-bg);
@@ -107,11 +95,7 @@
         display: inline-block;
         transition: transform 0.2s, background 0.2s;
       }
-
-      .btn-download:hover {
-        transform: scale(1.05);
-        background-color: #1ed760;
-      }
+      .btn-download:hover { transform: scale(1.05); background-color: #1ed760; }
 
       .step { margin-bottom: 80px; }
       .step h2 {
@@ -167,12 +151,9 @@
         border: 2px solid #333;
         background: #000;
       }
+      .screenshot-container img { width: 100%; display: block; object-fit: contain; }
 
-      .screenshot-container img {
-        width: 100%;
-        display: block;
-        object-fit: contain;
-      }
+      footer { text-align: center; color: #555; padding: 40px 0; border-top: 1px solid #222; }
     </style>
   </head>
   <body>
@@ -189,9 +170,7 @@
 
     <header>
       <h1>Requester Pro <span class="version-badge">v2.0.6</span></h1>
-      <p class="subtitle">
-        Automatic Spotify & Twitch integration. Simple setup, zero tokens.
-      </p>
+      <p class="subtitle">Automatic Spotify & Twitch integration. Simple setup, zero tokens.</p>
       <div class="download-box">
         <a href="https://github.com/voltaross/Requester-PRO/releases" class="btn-download">Download v2.0.6</a>
       </div>
@@ -222,7 +201,6 @@
         <p>Once connected, the app monitors your Spotify playback automatically.</p>
         <ul>
             <li>Every time a new song starts, the app sends a <strong>"Now Playing"</strong> message to your Twitch chat.</li>
-            <li>This feature requires no extra setup—just stay connected!</li>
         </ul>
         <div class="notice">
             <strong>Note:</strong> Announcements are sent only once per song to avoid chat spam.
@@ -246,18 +224,17 @@
         <p>To show the "Now Playing" card on your stream, add a <strong>Browser Source</strong> in OBS:</p>
         <ul>
             <li><strong>URL:</strong> <code>http://127.0.0.1:8888/overlay</code></li>
-            <li><strong>Width:</strong> 400</li>
-            <li><strong>Height:</strong> 150</li>
+            <li><strong>Width:</strong> 400 | <strong>Height:</strong> 150</li>
         </ul>
         <div class="notice">
-            <strong>Pro Tip:</strong> Click the <strong>"Copy OBS Overlay URL"</strong> button inside the Requester Pro app to quickly copy the link!
+            <strong>Pro Tip:</strong> Click the <strong>"Copy OBS Overlay URL"</strong> button inside the app to quickly copy the link!
         </div>
         <div class="screenshot-container">
-          <img src="images/step5.png" alt="OBS Browser Source Setup" />
+          <img src="images/step5.png" alt="OBS Setup" />
         </div>
       </div>
 
-      <footer style="text-align: center; color: #555; padding: 40px 0; border-top: 1px solid #222;">
+      <footer>
         <p>© 2026 Voltaross Creative Studio</p>
       </footer>
     </div>
