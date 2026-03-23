@@ -16,31 +16,35 @@
         --cursor-blue: #007bff;
       }
 
-      /* --- 1. HIDE THE REAL SYSTEM CURSOR --- */
-      html, body, a, button {
+      /* --- 1. THE FAIL-SAFE --- */
+      /* We hide the cursor ONLY if the 'cursor-active' class is added by JS. 
+         If the script crashes, your normal cursor stays visible so you aren't stuck. */
+      .cursor-active, .cursor-active a, .cursor-active button {
         cursor: none !important;
       }
 
-      /* --- 2. THE BLUE CIRCLE STYLING --- */
+      /* --- 2. THE BLUE CIRCLE --- */
       #custom-cursor {
-        position: fixed;
-        width: 20px;
-        height: 20px;
+        position: fixed; /* Stays visible even when scrolling */
+        top: -50px;      /* Start off-screen so it doesn't flicker at 0,0 */
+        left: -50px;
+        width: 15px;
+        height: 15px;
         background-color: var(--cursor-blue);
         border-radius: 50%;
-        /* Critical: prevents the circle from blocking clicks */
-        pointer-events: none; 
-        z-index: 9999;
+        pointer-events: none; /* Essential to click buttons 'through' the circle */
+        z-index: 999999;
         transform: translate(-50%, -50%);
-        transition: transform 0.1s ease-out, width 0.2s, height 0.2s;
-        box-shadow: 0 0 10px var(--cursor-blue);
+        box-shadow: 0 0 15px var(--cursor-blue);
+        transition: width 0.2s, height 0.2s, background-color 0.2s;
+        display: none; /* Hidden until JS moves it */
       }
 
-      /* Visual feedback when hovering over links */
-      .cursor-hover {
-        width: 35px !important;
-        height: 35px !important;
-        background-color: rgba(0, 123, 255, 0.5) !important;
+      /* Hover effect for the blue circle */
+      .cursor-expanding {
+        width: 30px !important;
+        height: 30px !important;
+        background-color: rgba(0, 123, 255, 0.3) !important;
         border: 2px solid var(--cursor-blue);
       }
 
@@ -49,7 +53,6 @@
         background-color: var(--bg-dark);
         color: var(--text-main);
         font-family: "Segoe UI", sans-serif;
-        line-height: 1.6;
         margin: 0;
         overflow-x: hidden;
       }
@@ -65,11 +68,10 @@
       
       .container { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
       .download-box { background: var(--card-bg); padding: 40px; border-radius: 15px; text-align: center; border: 1px solid #333; margin-bottom: 60px; }
-      
       .btn-download { background-color: var(--spotify-green); color: black; padding: 18px 40px; font-weight: bold; text-decoration: none; border-radius: 50px; display: inline-block; }
 
       .step { margin-bottom: 80px; }
-      .step h2 { display: flex; align-items: center; border-bottom: 2px solid #333; padding-bottom: 10px; }
+      .step h2 { display: flex; align-items: center; border-bottom: 2px solid #333; padding-bottom: 10px; margin-bottom: 20px; }
       .step-number { background: var(--spotify-green); color: black; width: 35px; height: 35px; border-radius: 50%; display: flex; justify-content: center; align-items: center; margin-right: 15px; font-weight: bold; }
       
       .notice { background: rgba(145, 70, 255, 0.1); border-left: 4px solid var(--twitch-purple); padding: 20px; margin: 20px 0; border-radius: 4px; }
@@ -90,7 +92,7 @@
 
     <header>
       <h1>Requester Pro <span class="version-badge">v2.0.6</span></h1>
-      <p style="color: var(--text-dim)">Automatic Spotify & Twitch integration.</p>
+      <p style="color: var(--text-dim)">Automatic Spotify & Twitch integration. Simple setup.</p>
       <div class="download-box">
         <a href="https://github.com/voltaross/Requester-PRO/releases" class="btn-download">Download v2.0.6</a>
       </div>
@@ -99,44 +101,59 @@
     <div class="container">
       <div class="step">
         <h2><span class="step-number">1</span> Setup Spotify API</h2>
-        <p>Create an app in the Spotify Dev Dashboard. Add <code>http://127.0.0.1:8888/callback</code> as the Redirect URI.</p>
+        <p>Create an app in the Spotify Dev Dashboard. Set Redirect URI to <code>http://127.0.0.1:8888/callback</code>.</p>
       </div>
 
       <div class="step">
         <h2><span class="step-number">2</span> Launch & Link</h2>
-        <p>Open the app, paste your keys, and click the authorize buttons.</p>
+        <p>Paste keys in Requester Pro, click Authorize, and link your accounts.</p>
       </div>
 
       <div class="step">
         <h2><span class="step-number">3</span> Auto-Announce</h2>
-        <p>Every time a new song starts, the app sends a message to your Twitch chat once.</p>
+        <p>The app automatically sends a "Now Playing" message to Twitch chat for every new song.</p>
       </div>
 
       <div class="step">
         <h2><span class="step-number">4</span> Managing Updates</h2>
-        <p>You can choose to <strong>Download</strong>, <strong>Skip</strong>, or <strong>Install Later</strong> when a new version is released.</p>
+        <p>Choose to <strong>Download</strong>, <strong>Skip</strong>, or <strong>Install Later</strong> for new releases.</p>
       </div>
 
       <div class="step">
-        <h2><span class="step-number">5</span> Add to OBS</h2>
-        <p>Use <code>http://127.0.0.1:8888/overlay</code> as a Browser Source (400x150).</p>
+        <h2><span class="step-number">5</span> OBS Overlay</h2>
+        <p>Add <code>http://127.0.0.1:8888/overlay</code> as a Browser Source in OBS (400x150).</p>
       </div>
     </div>
 
     <script>
       const cursor = document.getElementById('custom-cursor');
+      const body = document.body;
 
-      // Move the cursor with the mouse
-      document.addEventListener('mousemove', (e) => {
-        cursor.style.left = e.clientX + 'px';
-        cursor.style.top = e.clientY + 'px';
+      // Track mouse movement
+      window.addEventListener('mousemove', (e) => {
+        // Show the circle and hide the real cursor only once the mouse moves
+        if (cursor.style.display !== 'block') {
+          cursor.style.display = 'block';
+          body.classList.add('cursor-active');
+        }
+
+        // Use requestAnimationFrame for smoother movement
+        window.requestAnimationFrame(() => {
+          cursor.style.left = `${e.clientX}px`;
+          cursor.style.top = `${e.clientY}px`;
+        });
       });
 
-      // Add hover effect for links and buttons
-      const clickables = document.querySelectorAll('a, button, .btn-download');
-      clickables.forEach(el => {
-        el.addEventListener('mouseenter', () => cursor.classList.add('cursor-hover'));
-        el.addEventListener('mouseleave', () => cursor.classList.remove('cursor-hover'));
+      // Expand circle when hovering over links or buttons
+      document.querySelectorAll('a, button, .btn-download').forEach(el => {
+        el.addEventListener('mouseenter', () => cursor.classList.add('cursor-expanding'));
+        el.addEventListener('mouseleave', () => cursor.classList.remove('cursor-expanding'));
+      });
+
+      // Ensure cursor doesn't get stuck if mouse leaves the window
+      document.addEventListener('mouseleave', () => {
+        cursor.style.display = 'none';
+        body.classList.remove('cursor-active');
       });
     </script>
   </body>
