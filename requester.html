@@ -16,7 +16,11 @@
         --text-dim: #b3b3b3;
       }
 
-      /* --- FORCE CURSOR FIX --- */
+      /* --- CUSTOM CURSOR LOGIC --- 
+         1. Image must be SMALL (32x32 is best).
+         2. You MUST provide a fallback (like 'auto' or 'pointer') or it won't render.
+         3. 0 0 represents the 'hotspot' (the tip of the cursor).
+      */
       html, body {
         height: 100%;
         width: 100%;
@@ -26,15 +30,17 @@
         color: var(--text-main);
         font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         line-height: 1.6;
-        /* Ensure cursor is visible on the background */
-        cursor: auto !important; 
         overflow-x: hidden;
+        
+        /* REPLACE 'cursor.png' with your actual file path */
+        cursor: url('assets/cursor.png'), auto !important; 
       }
 
-      /* Ensure all clickable elements show the hand icon */
+      /* Change cursor when hovering over clickable items */
       a, button, .btn-download, .nav-links li a, [onclick] {
-        cursor: pointer !important;
-        -webkit-app-region: no-drag; /* Prevents drag regions from breaking the cursor */
+        /* REPLACE 'pointer.png' with your hovering cursor version */
+        cursor: url('assets/pointer.png'), pointer !important;
+        -webkit-app-region: no-drag; 
       }
 
       nav {
@@ -197,57 +203,30 @@
       </p>
       <div class="download-box" data-aos="zoom-in">
         <a href="https://github.com/voltaross/Requester-PRO/releases" class="btn-download">Download v2.0.4</a>
-        <p style="margin-top: 15px; font-size: 0.8rem; color: #888">
-          Now featuring One-Click Twitch Auth
-        </p>
       </div>
     </header>
 
     <div class="container">
       <div class="step" data-aos="fade-right">
         <h2><span class="step-number">1</span> Setup Spotify API</h2>
-        <p>Go to the <a href="https://developer.spotify.com/dashboard" style="color: var(--spotify-green)">Spotify Developer Dashboard</a> and create a new App.</p>
+        <p>Go to the Spotify Developer Dashboard and create a new App.</p>
         <ul>
-          <li>Click <strong>Edit Settings</strong>.</li>
-          <li>Add <code>http://127.0.0.1:8888/callback</code> to the <strong>Redirect URIs</strong>.</li>
-          <li>Save and copy your <strong>Client ID</strong> and <strong>Client Secret</strong>.</li>
+          <li>Add <code>http://127.0.0.1:8888/callback</code> to Redirect URIs.</li>
+          <li>Save and copy your <strong>Client ID</strong> and <strong>Secret</strong>.</li>
         </ul>
       </div>
 
       <div class="step" data-aos="fade-right">
-        <h2><span class="step-number">2</span> Create the Reward</h2>
-        <p>In your Twitch Dashboard, create a Channel Point Reward named <strong>exactly</strong> <code>Song Request</code>.</p>
-        <div class="notice">
-          <strong>IMPORTANT:</strong> You must toggle <strong>"Require Viewer to Enter Text"</strong> to ON. This allows the app to read song names from chat.
-        </div>
-      </div>
-
-      <div class="step" data-aos="fade-right">
-        <h2><span class="step-number">3</span> Link & Launch</h2>
-        <p>Open <code>RequesterPro.exe</code> and follow the buttons in order. No manual tokens required!</p>
+        <h2><span class="step-number">2</span> Launch & Link</h2>
+        <p>Open <code>RequesterPro.exe</code> and follow the buttons in order:</p>
         <ol>
-          <li><strong>Save Settings:</strong> Paste your Spotify ID/Secret and save.</li>
-          <li><strong>Connect Twitch:</strong> An authorize window will open. Click "Authorize".</li>
-          <li><strong>Link Spotify:</strong> Opens your browser to control music playback.</li>
+          <li><strong>Save Settings:</strong> Paste Spotify keys.</li>
+          <li><strong>Connect Twitch:</strong> Click "Authorize" in the popup.</li>
+          <li><strong>Link Spotify:</strong> Grant playback control.</li>
         </ol>
-        <div class="screenshot-container">
-          <img src="images/example.png" alt="App Interface" />
-        </div>
-      </div>
-
-      <div class="step" data-aos="fade-right">
-        <h2><span class="step-number">4</span> Auto-Announcements</h2>
-        <div class="update-feature">
-          <h3>v2.0.4 Features</h3>
-          <ul>
-            <li><strong>Chat Announcement:</strong> The app posts the song name in your Twitch chat automatically when it starts.</li>
-            <li><strong>Auto-Updater:</strong> Get a choice to update or skip new versions instantly.</li>
-          </ul>
-        </div>
       </div>
 
       <footer style="text-align: center; color: #555; padding: 40px 0; border-top: 1px solid #222;">
-        <p>Requester Pro is powered by Voltaross. All keys stay local.</p>
         <p>© 2026 Voltaross Creative Studio</p>
       </footer>
     </div>
@@ -255,9 +234,6 @@
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
       AOS.init({ once: true, duration: 800 });
-      
-      // Secondary JavaScript fix for cursor if CSS fails
-      document.body.style.cursor = 'default';
     </script>
   </body>
 </html>
