@@ -13,164 +13,84 @@
         --card-bg: #181818;
         --text-main: #ffffff;
         --text-dim: #b3b3b3;
+        --cursor-blue: #007bff;
       }
 
-      /* --- CRITICAL CURSOR FIX --- */
-      /* We use !important and a fallback to ensure it doesn't vanish */
-      html, body {
-        height: 100%;
-        width: 100%;
-        margin: 0;
-        padding: 0;
+      /* --- 1. HIDE THE REAL SYSTEM CURSOR --- */
+      html, body, a, button {
+        cursor: none !important;
+      }
+
+      /* --- 2. THE BLUE CIRCLE STYLING --- */
+      #custom-cursor {
+        position: fixed;
+        width: 20px;
+        height: 20px;
+        background-color: var(--cursor-blue);
+        border-radius: 50%;
+        /* Critical: prevents the circle from blocking clicks */
+        pointer-events: none; 
+        z-index: 9999;
+        transform: translate(-50%, -50%);
+        transition: transform 0.1s ease-out, width 0.2s, height 0.2s;
+        box-shadow: 0 0 10px var(--cursor-blue);
+      }
+
+      /* Visual feedback when hovering over links */
+      .cursor-hover {
+        width: 35px !important;
+        height: 35px !important;
+        background-color: rgba(0, 123, 255, 0.5) !important;
+        border: 2px solid var(--cursor-blue);
+      }
+
+      /* --- PAGE STYLING --- */
+      body {
         background-color: var(--bg-dark);
         color: var(--text-main);
-        font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        font-family: "Segoe UI", sans-serif;
         line-height: 1.6;
+        margin: 0;
         overflow-x: hidden;
-        
-        /* 1. Try your custom asset first */
-        /* 2. Fallback to 'default' so it never disappears */
-        cursor: url('assets/cursor.png'), default !important; 
       }
 
-      /* Hover states for all interactive elements */
-      a, button, .btn-download, .nav-links li a, [onclick], input {
-        cursor: url('assets/pointer.png'), pointer !important;
-        -webkit-app-region: no-drag; 
-      }
-
-      nav {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 20px 5%;
-        background: #121212;
-        position: relative;
-        z-index: 100;
-      }
-
+      nav { display: flex; justify-content: space-between; align-items: center; padding: 20px 5%; background: #121212; }
       .logo { font-weight: bold; font-size: 1.5rem; color: var(--spotify-green); }
-      .nav-links { list-style: none; display: flex; gap: 20px; margin: 0; padding: 0; }
+      .nav-links { list-style: none; display: flex; gap: 20px; }
       .nav-links a { color: white; text-decoration: none; font-size: 0.9rem; opacity: 0.8; }
-      .nav-links a:hover { opacity: 1; color: var(--spotify-green); }
-
-      header {
-        text-align: center;
-        padding: 80px 20px;
-        background: linear-gradient(180deg, #181818 0%, #0b0b0b 100%);
-      }
-
-      h1 { font-size: 3.5rem; margin: 0 0 10px 0; color: var(--spotify-green); }
-      .version-badge {
-        background: var(--spotify-green);
-        color: black;
-        padding: 4px 12px;
-        border-radius: 20px;
-        font-size: 1rem;
-        vertical-align: middle;
-        margin-left: 10px;
-      }
-      .subtitle { color: var(--text-dim); font-size: 1.2rem; margin-bottom: 30px; }
-
+      
+      header { text-align: center; padding: 80px 20px; background: linear-gradient(180deg, #181818 0%, #0b0b0b 100%); }
+      h1 { font-size: 3.5rem; color: var(--spotify-green); margin: 0; }
+      .version-badge { background: var(--spotify-green); color: black; padding: 4px 12px; border-radius: 20px; font-size: 1rem; margin-left: 10px; }
+      
       .container { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
-
-      .download-box {
-        background: var(--card-bg);
-        padding: 40px;
-        border-radius: 15px;
-        text-align: center;
-        border: 1px solid #333;
-        margin-bottom: 60px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-      }
-
-      .btn-download {
-        background-color: var(--spotify-green);
-        color: black;
-        padding: 18px 40px;
-        font-size: 1.2rem;
-        font-weight: bold;
-        text-decoration: none;
-        border-radius: 50px;
-        display: inline-block;
-        transition: transform 0.2s, background 0.2s;
-      }
-      .btn-download:hover { transform: scale(1.05); background-color: #1ed760; }
+      .download-box { background: var(--card-bg); padding: 40px; border-radius: 15px; text-align: center; border: 1px solid #333; margin-bottom: 60px; }
+      
+      .btn-download { background-color: var(--spotify-green); color: black; padding: 18px 40px; font-weight: bold; text-decoration: none; border-radius: 50px; display: inline-block; }
 
       .step { margin-bottom: 80px; }
-      .step h2 {
-        display: flex;
-        align-items: center;
-        font-size: 1.8rem;
-        border-bottom: 2px solid #333;
-        padding-bottom: 10px;
-        margin-bottom: 20px;
-      }
-      .step-number {
-        background: var(--spotify-green);
-        color: black;
-        width: 35px;
-        height: 35px;
-        border-radius: 50%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin-right: 15px;
-        font-weight: bold;
-      }
-
-      .notice {
-        background: rgba(145, 70, 255, 0.1);
-        border-left: 4px solid var(--twitch-purple);
-        padding: 20px;
-        margin: 20px 0;
-        border-radius: 4px;
-      }
-
-      .update-feature {
-        background: rgba(29, 185, 84, 0.1);
-        border: 1px solid var(--spotify-green);
-        padding: 20px;
-        border-radius: 10px;
-        margin-top: 40px;
-      }
-
-      code {
-        background: #000;
-        padding: 4px 8px;
-        border-radius: 4px;
-        color: var(--spotify-green);
-        font-family: monospace;
-      }
-
-      .screenshot-container {
-        width: 100%;
-        border-radius: 10px;
-        margin: 20px 0;
-        overflow: hidden;
-        border: 2px solid #333;
-        background: #000;
-      }
-      .screenshot-container img { width: 100%; display: block; object-fit: contain; }
-
-      footer { text-align: center; color: #555; padding: 40px 0; border-top: 1px solid #222; }
+      .step h2 { display: flex; align-items: center; border-bottom: 2px solid #333; padding-bottom: 10px; }
+      .step-number { background: var(--spotify-green); color: black; width: 35px; height: 35px; border-radius: 50%; display: flex; justify-content: center; align-items: center; margin-right: 15px; font-weight: bold; }
+      
+      .notice { background: rgba(145, 70, 255, 0.1); border-left: 4px solid var(--twitch-purple); padding: 20px; margin: 20px 0; border-radius: 4px; }
     </style>
   </head>
   <body>
+    <div id="custom-cursor"></div>
+
     <nav>
       <div class="logo">VOLTAROSS</div>
       <ul class="nav-links">
         <li><a href="index.html">Home</a></li>
         <li><a href="pricing.html">Pricing</a></li>
         <li><a href="twitch.html">Twitch</a></li>
-        <li><a href="form.html">Request</a></li>
         <li><a href="requester.html">Requester App</a></li>
       </ul>
     </nav>
 
     <header>
       <h1>Requester Pro <span class="version-badge">v2.0.6</span></h1>
-      <p class="subtitle">Automatic Spotify & Twitch integration. Simple setup, zero tokens.</p>
+      <p style="color: var(--text-dim)">Automatic Spotify & Twitch integration.</p>
       <div class="download-box">
         <a href="https://github.com/voltaross/Requester-PRO/releases" class="btn-download">Download v2.0.6</a>
       </div>
@@ -179,64 +99,45 @@
     <div class="container">
       <div class="step">
         <h2><span class="step-number">1</span> Setup Spotify API</h2>
-        <p>Go to the Spotify Developer Dashboard and create a new App.</p>
-        <ul>
-          <li>Add <code>http://127.0.0.1:8888/callback</code> to Redirect URIs.</li>
-          <li>Save and copy your <strong>Client ID</strong> and <strong>Secret</strong>.</li>
-        </ul>
+        <p>Create an app in the Spotify Dev Dashboard. Add <code>http://127.0.0.1:8888/callback</code> as the Redirect URI.</p>
       </div>
 
       <div class="step">
         <h2><span class="step-number">2</span> Launch & Link</h2>
-        <p>Open <code>RequesterPro.exe</code> and follow the buttons in order:</p>
-        <ol>
-          <li><strong>Save Settings:</strong> Paste Spotify keys.</li>
-          <li><strong>Connect Twitch:</strong> Click "Authorize" in the popup.</li>
-          <li><strong>Link Spotify:</strong> Grant playback control.</li>
-        </ol>
+        <p>Open the app, paste your keys, and click the authorize buttons.</p>
       </div>
 
       <div class="step">
         <h2><span class="step-number">3</span> Auto-Announce</h2>
-        <p>Once connected, the app monitors your Spotify playback automatically.</p>
-        <ul>
-            <li>Every time a new song starts, the app sends a <strong>"Now Playing"</strong> message to your Twitch chat.</li>
-        </ul>
-        <div class="notice">
-            <strong>Note:</strong> Announcements are sent only once per song to avoid chat spam.
-        </div>
+        <p>Every time a new song starts, the app sends a message to your Twitch chat once.</p>
       </div>
 
       <div class="step">
         <h2><span class="step-number">4</span> Managing Updates</h2>
-        <p>Stay up to date without the hassle of manual reinstallation.</p>
-        <div class="update-feature">
-          <h3>When an update is found:</h3>
-          <ol>
-            <li>A popup will appear asking if you'd like to <strong>Download & Install</strong>, <strong>Skip</strong>, or <strong>Install Later</strong>.</li>
-            <li>If you choose <strong>Skip</strong>, the app will ignore that specific version until the next update is released.</li>
-          </ol>
-        </div>
+        <p>You can choose to <strong>Download</strong>, <strong>Skip</strong>, or <strong>Install Later</strong> when a new version is released.</p>
       </div>
 
       <div class="step">
-        <h2><span class="step-number">5</span> Add to OBS Overlay</h2>
-        <p>To show the "Now Playing" card on your stream, add a <strong>Browser Source</strong> in OBS:</p>
-        <ul>
-            <li><strong>URL:</strong> <code>http://127.0.0.1:8888/overlay</code></li>
-            <li><strong>Width:</strong> 400 | <strong>Height:</strong> 150</li>
-        </ul>
-        <div class="notice">
-            <strong>Pro Tip:</strong> Click the <strong>"Copy OBS Overlay URL"</strong> button inside the app to quickly copy the link!
-        </div>
-        <div class="screenshot-container">
-          <img src="images/step5.png" alt="OBS Setup" />
-        </div>
+        <h2><span class="step-number">5</span> Add to OBS</h2>
+        <p>Use <code>http://127.0.0.1:8888/overlay</code> as a Browser Source (400x150).</p>
       </div>
-
-      <footer>
-        <p>© 2026 Voltaross Creative Studio</p>
-      </footer>
     </div>
+
+    <script>
+      const cursor = document.getElementById('custom-cursor');
+
+      // Move the cursor with the mouse
+      document.addEventListener('mousemove', (e) => {
+        cursor.style.left = e.clientX + 'px';
+        cursor.style.top = e.clientY + 'px';
+      });
+
+      // Add hover effect for links and buttons
+      const clickables = document.querySelectorAll('a, button, .btn-download');
+      clickables.forEach(el => {
+        el.addEventListener('mouseenter', () => cursor.classList.add('cursor-hover'));
+        el.addEventListener('mouseleave', () => cursor.classList.remove('cursor-hover'));
+      });
+    </script>
   </body>
 </html>
