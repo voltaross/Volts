@@ -23,6 +23,7 @@
         line-height: 1.6;
         margin: 0;
         padding: 0;
+        cursor: default; /* Ensures default cursor shows */
       }
 
       nav {
@@ -35,7 +36,13 @@
 
       .logo { font-weight: bold; font-size: 1.5rem; color: var(--spotify-green); }
       .nav-links { list-style: none; display: flex; gap: 20px; }
-      .nav-links a { color: white; text-decoration: none; font-size: 0.9rem; opacity: 0.8; }
+      .nav-links a { 
+        color: white; 
+        text-decoration: none; 
+        font-size: 0.9rem; 
+        opacity: 0.8; 
+        cursor: pointer; /* Explicit pointer */
+      }
       .nav-links a:hover { opacity: 1; color: var(--spotify-green); }
 
       header {
@@ -90,6 +97,7 @@
         border-radius: 50px;
         display: inline-block;
         transition: transform 0.2s, background 0.2s;
+        cursor: pointer; /* Explicit pointer */
       }
 
       .btn-download:hover {
@@ -157,6 +165,8 @@
         display: block;
         object-fit: contain;
       }
+
+      a { cursor: pointer; } /* Universal link cursor fix */
     </style>
   </head>
   <body>
@@ -174,12 +184,12 @@
     <header>
       <h1 data-aos="fade-down">Requester Pro <span class="version-badge">v2.0.4</span></h1>
       <p class="subtitle" data-aos="fade-up">
-        The ultimate Spotify & Twitch integration for streamers.
+        Automatic Spotify & Twitch integration. Simple setup, zero tokens.
       </p>
       <div class="download-box" data-aos="zoom-in">
-        <a href="https://github.com/voltaross/Requester-PRO/releases" class="btn-download">Download Latest Release</a>
+        <a href="https://github.com/voltaross/Requester-PRO/releases" class="btn-download">Download v2.0.4</a>
         <p style="margin-top: 15px; font-size: 0.8rem; color: #888">
-          Includes Auto-Update Support for Windows 10/11
+          Now featuring One-Click Twitch Auth
         </p>
       </div>
     </header>
@@ -196,19 +206,10 @@
       </div>
 
       <div class="step" data-aos="fade-right">
-        <h2><span class="step-number">2</span> Get Twitch Token</h2>
-        <p>Visit <a href="https://twitchtokengenerator.com/" style="color: var(--twitch-purple)">Twitch Token Generator</a>.</p>
-        <p>Select <strong>User Access Token</strong> and ensure you check the following scopes:</p>
-        <code>channel:read:redemptions</code>
-        <code>chat:read</code>
-        <code>chat:edit</code>
-      </div>
-
-      <div class="step" data-aos="fade-right">
-        <h2><span class="step-number">3</span> Create the Reward</h2>
-        <p>In your Twitch Dashboard, create a Reward named <strong>exactly</strong> <code>Song Request</code>.</p>
+        <h2><span class="step-number">2</span> Create the Reward</h2>
+        <p>In your Twitch Dashboard, create a Channel Point Reward named <strong>exactly</strong> <code>Song Request</code>.</p>
         <div class="notice">
-          <strong>IMPORTANT:</strong> You must toggle <strong>"Require Viewer to Enter Text"</strong> to ON. This allows users to paste Spotify links or song names.
+          <strong>IMPORTANT:</strong> You must toggle <strong>"Require Viewer to Enter Text"</strong> to ON. This allows the app to read the song titles from your chat!
         </div>
         <div class="screenshot-container">
           <img src="images/step3.png" alt="Twitch Reward Setup" />
@@ -216,12 +217,12 @@
       </div>
 
       <div class="step" data-aos="fade-right">
-        <h2><span class="step-number">4</span> Launch & Link</h2>
-        <p>Open <code>RequesterPro.exe</code> and paste your keys. Run the setup in order:</p>
+        <h2><span class="step-number">3</span> Link & Launch</h2>
+        <p>Open <code>RequesterPro.exe</code> and follow the buttons in order. No manual tokens required!</p>
         <ol>
-          <li><strong>Save Settings:</strong> Stores your API keys locally.</li>
-          <li><strong>Connect Twitch:</strong> Joins your chat and listens for rewards.</li>
-          <li><strong>Link Spotify:</strong> Controls your music playback.</li>
+          <li><strong>Save Settings:</strong> Paste your Spotify ID/Secret and save.</li>
+          <li><strong>Connect Twitch:</strong> A browser window will open. Click "Authorize" to link your channel.</li>
+          <li><strong>Link Spotify:</strong> Authorize the app to control your music playback.</li>
         </ol>
         <div class="screenshot-container">
           <img src="images/example.png" alt="App Interface" />
@@ -229,33 +230,29 @@
       </div>
 
       <div class="step" data-aos="fade-right">
-        <h2><span class="step-number">5</span> Seamless Updates</h2>
+        <h2><span class="step-number">4</span> Stream Features</h2>
         <div class="update-feature">
-          <h3>How Updates Work</h3>
-          <p>Starting with v2.0.3, you no longer need to manually download new versions. When an update is released, the app will:</p>
+          <h3>v2.0.4 Enhancements</h3>
           <ul>
-            <li>Notify you in the app log.</li>
-            <li>Give you a choice to <strong>Install Now</strong>, <strong>Later</strong>, or <strong>Skip</strong> that specific version.</li>
-            <li>Announce the current song playing directly to your Twitch chat!</li>
+            <li><strong>Auto-Announce:</strong> The app automatically posts the song name in your Twitch chat when it starts playing.</li>
+            <li><strong>Smart Requests:</strong> Supports both text searches and direct Spotify links.</li>
+            <li><strong>One-Click Auth:</strong> No more copying and pasting long Twitch tokens.</li>
           </ul>
         </div>
       </div>
 
       <div class="step" data-aos="fade-right">
-        <h2><span class="step-number">6</span> Add to OBS</h2>
-        <p>Add a new <strong>Browser Source</strong> in OBS:</p>
+        <h2><span class="step-number">5</span> Add to OBS</h2>
+        <p>Add a <strong>Browser Source</strong> in OBS:</p>
         <ul>
           <li><strong>URL:</strong> <code>http://127.0.0.1:8888/overlay</code></li>
-          <li><strong>Dimensions:</strong> 400x150 (Customizable)</li>
+          <li><strong>Size:</strong> 400px x 150px</li>
         </ul>
-        <div class="screenshot-container">
-          <img src="images/step5.png" alt="OBS Setup" />
-        </div>
       </div>
 
       <footer style="text-align: center; color: #555; padding: 40px 0; border-top: 1px solid #222;">
-        <p>Requester Pro is an independent tool. All keys and data are stored locally on your machine.</p>
-        <p>&copy; 2026 Voltaross Creative Studio</p>
+        <p>Requester Pro is powered by Voltaross. Your keys never leave your computer.</p>
+        <p>© 2026 Voltaross Creative Studio</p>
       </footer>
     </div>
 
